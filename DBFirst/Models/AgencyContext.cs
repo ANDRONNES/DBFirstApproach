@@ -22,9 +22,22 @@ public partial class AgencyContext : DbContext
     public virtual DbSet<Country> Countries { get; set; }
 
     public virtual DbSet<Trip> Trips { get; set; }
-    
+    public virtual DbSet<User> Users { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.ToTable("users"); 
+            entity.HasKey(e => e.IdUser);
+
+            entity.Property(e => e.IdUser).HasColumnName("id_user");
+            entity.Property(e => e.Username).HasColumnName("username");
+            entity.Property(e => e.Email).HasColumnName("email");  
+            entity.Property(e => e.PasswordHash).HasColumnName("password_hash");
+            entity.Property(e => e.Salt).HasColumnName("salt");
+            entity.Property(e => e.RefreshToken).HasColumnName("refresh_token");
+            entity.Property(e => e.RefreshTokenExpires).HasColumnName("refresh_token_expires");
+        });
         modelBuilder.Entity<Client>(entity =>
         {
             entity.HasKey(e => e.Idclient).HasName("client_pkey");
